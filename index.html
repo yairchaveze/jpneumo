@@ -66,8 +66,33 @@ a:focus-visible,.btn:focus-visible,summary:focus-visible,button:focus-visible{ou
 .nav ul a{text-decoration:none;opacity:.8}
 .nav ul a:hover{opacity:1}
 .nav .btn{padding:11px 18px;font-size:14.5px}
-@media (max-width:920px){.nav ul{display:none}}
-@media (max-width:480px){.nav .btn{display:none}}
+.menu-btn{display:none;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--navy);cursor:pointer;flex:none}
+.menu-btn svg{width:22px;height:22px}
+.nav .right{display:flex;align-items:center;gap:10px}
+.drawer{display:none}
+.mbar{display:none}
+@media (max-width:920px){
+  .nav ul{display:none}
+  .menu-btn{display:inline-flex}
+  .drawer{display:block;position:fixed;inset:0;z-index:40;visibility:hidden}
+  .drawer.open{visibility:visible}
+  .drawer .scrim{position:absolute;inset:0;background:rgba(15,34,70,.45);opacity:0;transition:opacity .25s}
+  .drawer.open .scrim{opacity:1}
+  .drawer .panel{position:absolute;top:0;right:0;bottom:0;width:min(320px,86vw);background:var(--bg);padding:calc(18px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) 24px 22px;transform:translateX(100%);transition:transform .28s ease;display:flex;flex-direction:column;gap:6px;box-shadow:-20px 0 40px rgba(15,34,70,.15)}
+  .drawer.open .panel{transform:none}
+  .drawer .phead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .drawer .phead b{font-weight:700;color:var(--navy)}
+  .drawer a.lk{display:block;padding:14px 4px;border-bottom:1px solid var(--line);text-decoration:none;color:var(--navy);font-weight:600;font-size:17px}
+  .drawer .pcta{margin-top:auto;display:grid;gap:10px;padding-top:18px}
+  .drawer .pcta .btn{justify-content:center}
+  .mbar{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px max(12px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));box-shadow:0 -8px 24px rgba(15,34,70,.08)}
+  .mbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:58px;border-radius:14px;text-decoration:none;font-size:12.5px;font-weight:600;color:var(--navy);background:var(--wash);border:1px solid var(--line)}
+  .mbar a svg{width:20px;height:20px}
+  .mbar a.wa{background:#1F8F55;border-color:#1F8F55;color:#fff}
+  .mbar a.go{background:var(--navy);border-color:var(--navy);color:#fff;flex-direction:row;font-size:14.5px;gap:8px}
+  body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+}
+@media (max-width:480px){.nav .right .btn{display:none}}
 
 .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--bg) 0%,var(--wash) 100%)}
 .hero .bgloop{position:absolute;left:-8%;bottom:-10%;width:min(900px,110%);height:auto;opacity:.5;pointer-events:none}
@@ -262,8 +287,28 @@ footer .legal a{color:var(--sky-deep);font-weight:600}
 <nav class="nav" aria-label="Principal"><div class="wrap">
   <a class="mark" href="#top" aria-label="Inicio"><img src="logo-pulmones.png" alt="" width="45" height="40"><span class="wm"><b>Dr. Juan Pablo</b> <span>Espinoza</span><small>Neumólogo</small></span></a>
   <ul><li><a href="#padecimientos">Padecimientos</a></li><li><a href="#doctor">Trayectoria</a></li><li><a href="#opiniones">Opiniones</a></li><li><a href="#estudios">Estudios</a></li><li><a href="#consultorios">Consultorios</a></li><li><a href="#preguntas">Preguntas</a></li></ul>
-  <a class="btn solid" href="#agenda">Agendar cita</a>
+  <div class="right">
+    <a class="btn solid" href="#agenda">Agendar cita</a>
+    <button class="menu-btn" type="button" id="menuBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
 </div></nav>
+
+<div class="drawer" id="drawer" aria-hidden="true">
+  <div class="scrim" data-close></div>
+  <div class="panel" role="dialog" aria-modal="true" aria-label="Menú">
+    <div class="phead"><b>Menú</b><button class="menu-btn" type="button" data-close aria-label="Cerrar menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <a class="lk" href="#padecimientos">Padecimientos</a>
+    <a class="lk" href="#doctor">Trayectoria</a>
+    <a class="lk" href="#opiniones">Opiniones</a>
+    <a class="lk" href="#estudios">Estudios</a>
+    <a class="lk" href="#consultorios">Consultorios</a>
+    <a class="lk" href="#preguntas">Preguntas</a>
+    <div class="pcta">
+      <a class="btn solid" href="https://wa.me/528131964145?text=Hola%2C%20quiero%20agendar%20una%20consulta%20con%20el%20Dr.%20Juan%20Pablo%20Espinoza" target="_blank" rel="noopener">Agendar por WhatsApp</a>
+      <a class="btn line" href="tel:+528183513610">Llamar 81 8351 3610</a>
+    </div>
+  </div>
+</div>
 
 <header class="hero">
   <svg class="bgloop" viewBox="0 0 900 640" fill="none" aria-hidden="true">
@@ -453,5 +498,19 @@ footer .legal a{color:var(--sky-deep);font-weight:600}
   </div>
 </div></footer>
 
+<nav class="mbar" aria-label="Contacto rápido">
+  <a class="wa" href="https://wa.me/528131964145?text=Hola%2C%20quiero%20agendar%20una%20consulta%20con%20el%20Dr.%20Juan%20Pablo%20Espinoza" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>WhatsApp</a>
+  <a href="tel:+528183513610"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Llamar</a>
+  <a class="go" href="#agenda"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Agendar cita</a>
+</nav>
+<script>
+(function(){
+  var d=document.getElementById('drawer'),b=document.getElementById('menuBtn');
+  function set(o){d.classList.toggle('open',o);d.setAttribute('aria-hidden',!o);b.setAttribute('aria-expanded',o);document.documentElement.style.overflow=o?'hidden':'';}
+  b.addEventListener('click',function(){set(true)});
+  d.addEventListener('click',function(e){if(e.target.closest('[data-close]')||e.target.closest('a'))set(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});
+})();
+</script>
 </body>
 </html>
